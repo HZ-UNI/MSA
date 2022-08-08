@@ -1,4 +1,4 @@
-# MSA
+# MSA Frontend Portion
 My MSA phase 2 submission for front-end.
 
 This is a character searcher for the cartoon Rick and Morty.
