@@ -4,6 +4,7 @@ import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
 import './App.css';
+import { Box, Button, Grid, Paper, Skeleton } from "@mui/material";
 
 function App() {
   const [characterName, setCharacterName] = useState("");
@@ -12,47 +13,111 @@ function App() {
 
   return (
     <div>
-      <h1>Character Search</h1>
-      
-      <div>
-        <label>Enter the name of the Character</label><br/>
-        <input 
-          type="text" 
-          id="character-name" 
-          name="character-name" 
-          onChange={(e) => setCharacterName(e.target.value)}/>
-          <br/>
-
-        <button onClick={search}>Search</button>
+      <div className="search-field">
+        <h1>Rick and Morty character Search</h1>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <TextField
+            id="search-bar"
+            className="text"
+            value={characterName}
+            onChange={(prop) => {
+              setCharacterName(prop.target.value);
+            }}
+            label="Enter a character Name..."
+            variant="outlined"
+            placeholder="Search..."
+            size="medium"
+          />
+          
+          <Button
+            onClick={() => {
+              search();
+            }}
+          >
+            <SearchIcon style={{ fill: "blue" }} />
+            Search
+          </Button>
+        </div>
       </div>
 
-      <p>You have entered {characterName}</p>
-
       {characterInfo === undefined ? (
-        <p>Character not found</p>
+        <div></div>
       ) : (
-        <div id="result">
-          <img src={characterInfo.results[1].image} />
-          <p>
-            Gender: {characterInfo.results[1].species}
-            <br />
-            Species: {characterInfo.results[1].gender}
-          </p>
+        <div 
+          id="result"
+          style={{
+            maxWidth: "800px",
+            margin: "0 auto",
+            padding: "100px 10px 0px 10px",
+          }}
+        >
+          <Paper sx={{ backgroundColor: "white" }}>
+            <Grid
+              container
+              direction="row"
+              spacing={5}
+              sx={{
+                justifyContent: "center",
+              }}
+            >
+              <Grid item>
+                <Box>
+                  {characterInfo === undefined || characterInfo === null ? (
+                    <h1> Character not found</h1>
+                  ) : (
+                    <div>
+                      <h1>
+                        {characterInfo.results[0].name.charAt(0).toUpperCase() +
+                          characterInfo.results[0].name.slice(1)}
+                      </h1>
+                      <p>
+                        Gender: {characterInfo.results[1].species}
+                        <br />
+                        Species: {characterInfo.results[0].gender}
+                        <br />
+                        Origin: {characterInfo.results[0].origin.name}
+                        <br />
+                        Status: {characterInfo.results[0].status}
+                      </p>
+                    </div>
+                  )}
+                </Box>
+              </Grid>
+              <Grid item>
+                <Box>
+                  {characterInfo?.results[1].image ? (
+                    <img
+                      height="300px"
+                      width="300px"
+                      alt={characterInfo.results[0].name}
+                      src={characterInfo.results[1].image}
+                    ></img>
+                  ) : (
+                    <Skeleton width={300} height={300} />
+                  )}
+                </Box>
+              </Grid>
+            </Grid>
+          </Paper>
         </div>
       )}
-      
     </div>
   );
 
   function search(){
+    console.log(characterName);
+    if (characterName === undefined || characterName === "") {
+      return;
+    }
+
     axios
-      .get(API_BASE_URL + "/character/?name=" + characterName)
+      .get(API_BASE_URL + "/character/?name=" + characterName?.toLowerCase())
       .then((res) => {
         setCharacterInfo(res.data);
       })
-      .catch((err) => {
+      .catch(() => {
         console.log("Character not found");
-        setCharacterInfo(undefined);
+        setCharacterInfo(null);
       });
   }
 }
