@@ -28,7 +28,6 @@ function App() {
             placeholder="Search..."
             size="medium"
           />
-          
           <Button
             onClick={() => {
               search();
@@ -66,12 +65,10 @@ function App() {
                     <h1> Character not found</h1>
                   ) : (
                     <div>
-                      <h1>
-                        {characterInfo.results[0].name.charAt(0).toUpperCase() +
-                          characterInfo.results[0].name.slice(1)}
-                      </h1>
                       <p>
-                        Gender: {characterInfo.results[1].species}
+                        Name: {characterInfo.results[0].name}
+                        <br />
+                        Gender: {characterInfo.results[0].species}
                         <br />
                         Species: {characterInfo.results[0].gender}
                         <br />
@@ -85,12 +82,12 @@ function App() {
               </Grid>
               <Grid item>
                 <Box>
-                  {characterInfo?.results[1].image ? (
+                  {characterInfo?.results[0].image ? (
                     <img
                       height="300px"
                       width="300px"
                       alt={characterInfo.results[0].name}
-                      src={characterInfo.results[1].image}
+                      src={characterInfo.results[0].image}
                     ></img>
                   ) : (
                     <Skeleton width={300} height={300} />
