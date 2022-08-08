@@ -12,9 +12,7 @@ function App() {
 
   return (
     <div>
-      <h1>
-        Character Search
-      </h1>
+      <h1>Character Search</h1>
       
       <div>
         <label>Enter the name of the Character</label><br/>
@@ -35,22 +33,28 @@ function App() {
       ) : (
         <div id="result">
           <img src={characterInfo.results[1].image} />
+          <p>
+            Gender: {characterInfo.results[1].species}
+            <br />
+            Species: {characterInfo.results[1].gender}
+          </p>
         </div>
       )}
+      
     </div>
   );
 
   function search(){
     axios
-    .get(API_BASE_URL + "/character/?name=" + characterName)
-    .then((res) => {
-      setCharacterInfo(res.data);
-    })
-    .catch((err) => {
-      console.log("Pokemon not found");
-      setCharacterInfo(undefined);
-    });
-}
+      .get(API_BASE_URL + "/character/?name=" + characterName)
+      .then((res) => {
+        setCharacterInfo(res.data);
+      })
+      .catch((err) => {
+        console.log("Character not found");
+        setCharacterInfo(undefined);
+      });
+  }
 }
 
 export default App;
