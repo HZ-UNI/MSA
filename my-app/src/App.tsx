@@ -68,9 +68,9 @@ function App() {
                       <p>
                         Name: {characterInfo.results[0].name}
                         <br />
-                        Gender: {characterInfo.results[0].species}
+                        Species: {characterInfo.results[0].species}
                         <br />
-                        Species: {characterInfo.results[0].gender}
+                        Gender: {characterInfo.results[0].gender}
                         <br />
                         Origin: {characterInfo.results[0].origin.name}
                         <br />
